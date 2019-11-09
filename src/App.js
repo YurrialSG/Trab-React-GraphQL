@@ -1,25 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import ContentWrapper from './components/ContentWrapper';
+import Registereds from './screens/Registered';
+import Login from './screens/Login';
+import Register from './screens/Register';
+import { ApolloProvider } from 'react-apollo';
+import { client } from './graphql/client';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <Router>
+        <Switch>
+          <Route path="/registereds">
+            <ContentWrapper>
+              <Registereds />
+            </ContentWrapper>
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/register">
+            <Register />
+          </Route>
+          <Route path="*">
+            <Redirect to="/login" />
+          </Route>
+        </Switch>
+      </Router>
+    </ApolloProvider>
   );
 }
 
